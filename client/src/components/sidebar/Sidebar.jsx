@@ -4,9 +4,10 @@ import { MdDashboard } from "react-icons/md";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { GiPayMoney } from "react-icons/gi";
+import { CiLight } from "react-icons/ci";
 const Sidebar = () => {
   const location = useLocation();
-  console.log(location);
+
   return (
     <aside className="w-full flex flex-col bg-white h-full">
       {/* Profile */}
@@ -45,6 +46,9 @@ const Sidebar = () => {
             text={"Expense"}
             Icon={GiPayMoney}
           />
+          <li className="flex items-center my-4 rounded-md p-2 cursor-pointer">
+            <CiLight className="mr-2" /> <p>Light</p>
+          </li>
         </ul>
       </div>
     </aside>

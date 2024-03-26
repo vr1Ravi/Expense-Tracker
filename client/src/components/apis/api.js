@@ -1,18 +1,20 @@
 import axios from "axios";
-import {
-  addIncomeFailure,
-  addIncomeRequest,
-  addIncomeSuccess,
-} from "../../slices/income_slice";
-
-export const addIncome = (income) => {
-  return async (dispatch) => {
-    try {
-      dispatch(addIncomeRequest());
-      const { data } = await axios.post("/api/v1/add-income", { income });
-      dispatch(addIncomeSuccess());
-    } catch (error) {
-      dispatch(addIncomeFailure(error.response.data.message));
-    }
-  };
-};
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+export const incomeApi = createApi({
+  reducerPath: "incomeApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/v1/" }),
+  endpoints: (builder) => ({
+    getIncome: builder.query({
+      query: (page = 1) => `get-incomes?page=${page}`,
+      transformResponse: (response) => response.response,
+    }),
+    addIncome: builder.mutation({
+      query: (newIncome) => ({
+        url: "add-income",
+        method: "POST",
+        body: newIncome,
+      }),
+    }),
+  }),
+});
+export const { useGetIncomeQuery, useAddIncomeMutation } = incomeApi;
