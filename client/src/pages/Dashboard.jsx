@@ -1,12 +1,12 @@
-import Sidebar from "../sidebar/Sidebar";
+import Sidebar from "../components/Sidebar";
 
-const Expense = () => {
+const Dashboard = () => {
   return (
     <section className="grid grid-cols-1fr-4fr gap-3 bg-slate-100 h-[100vh] overflow-y-auto">
       <Sidebar />
-      <main className="bg-white">Expense</main>
+      <main className="bg-white">main</main>
     </section>
   );
 };
 
-export default Expense;
+export default Dashboard;

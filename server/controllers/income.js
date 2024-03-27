@@ -29,14 +29,23 @@ export const addIncome = async (req, res) => {
       date,
       description,
     });
+    let total_income;
+    if (nodeCache.get("total_income")) {
+      total_income = JSON.parse(nodeCache.get("total_income"));
+    } else {
+      total_income = 0;
+    }
+
+    total_income += income.amount;
+    nodeCache.set("total_income", JSON.stringify(total_income));
 
     return res.status(201).json({
       message: "Income added",
       success: true,
       income,
+      total_income,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -63,7 +72,7 @@ export const getIncomes = async (req, res) => {
       incomesPromise,
     ]);
 
-    const pageCount = Math.ceil(itemsCount / ITEMS_PER_PAGE);
+    const pageCount = Math.ceil(itemsCount / ITEMS_PER_PAGE) || 1;
 
     let total_income;
 
@@ -108,12 +117,6 @@ export const deleteIncome = async (req, res) => {
     const { id } = req.params;
     const income = await Income.findById(id);
 
-    let total_income = JSON.parse(nodeCache.get("total_income")) || 0;
-    if (total_income) {
-      total_income -= income.amount;
-      nodeCache.set("total_income", JSON.stringify(total_income));
-    }
-
     if (!income) {
       return res.status(404).json({
         success: false,
@@ -121,6 +124,16 @@ export const deleteIncome = async (req, res) => {
       });
     }
     await Income.deleteOne({ _id: id });
+    let total_income;
+    if (nodeCache.get("total_income")) {
+      total_income = JSON.parse(nodeCache.get("total_income"));
+    } else {
+      total_income = 0;
+    }
+    if (total_income) {
+      total_income -= income.amount;
+      nodeCache.set("total_income", JSON.stringify(total_income));
+    }
     return res.status(200).json({
       success: true,
       message: "Income deleted",

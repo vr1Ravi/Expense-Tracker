@@ -1,4 +1,4 @@
-import Sidebar from "../sidebar/Sidebar";
+import Sidebar from "../components/Sidebar";
 
 const Transaction = () => {
   return (

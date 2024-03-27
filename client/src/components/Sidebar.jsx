@@ -1,16 +1,34 @@
-import avatar from "../../assets/avatar.png";
+import avatar from "../assets/avatar.png";
 import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { GiPayMoney } from "react-icons/gi";
 import { CiLight } from "react-icons/ci";
+import { RxCross2 } from "react-icons/rx";
+import { useSelector, useDispatch } from "react-redux";
+import { setShowSideBar } from "../slices/item_slice";
+
 const Sidebar = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { showSidebar } = useSelector((state) => state.item);
 
   return (
-    <aside className="w-full flex flex-col bg-white h-full">
+    <aside
+      className={` -translate-x-[100vw]   ${
+        showSidebar ? " animate-sidebar" : ""
+      } z-10 absolute  md:static flex flex-col bg-white h-full border-r-2 md:translate-x-0`}
+    >
       {/* Profile */}
+      <button
+        onClick={() => {
+          dispatch(setShowSideBar(false));
+        }}
+        className="ml-auto mr-[4px] mt-[4px] md:hidden"
+      >
+        <RxCross2 style={{ fontSize: "1.5rem" }} />
+      </button>
       <div className="my-4 mx-3 flex items-center">
         <img className="w-14 mr-2" src={avatar} alt="avatar" />
         <div>
@@ -31,7 +49,7 @@ const Sidebar = () => {
           <Li
             location={location}
             url={"/transaction"}
-            text={"View transactions"}
+            text={"Transactions"}
             Icon={AiOutlineTransaction}
           />
           <Li

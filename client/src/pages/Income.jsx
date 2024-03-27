@@ -1,18 +1,21 @@
-import Sidebar from "../sidebar/Sidebar";
+import Sidebar from "../components/Sidebar";
 import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr";
 import { Oval } from "react-loader-spinner";
 import { useEffect, useState } from "react";
-import { useGetIncomeQuery } from "../apis/api";
-import IncomeItem from "./incomeItem";
-import Form from "../Form";
+import { useGetIncomeQuery } from "../components/apis/api";
+import Item from "../components/Item";
+import { MdOutlineSort } from "react-icons/md";
+import Form from "../components/Form";
+import { useDispatch } from "react-redux";
+import { setShowSideBar } from "../slices/item_slice";
+
 const Income = () => {
   const [page, setPage] = useState(1);
-  const [recentlyAddedIncome, setRecentlyAddedIncome] = useState(null);
-  const [pageCount, setPageCount] = useState(0);
-
+  const [pageCount, setPageCount] = useState(1);
+  const dispatch = useDispatch();
   const { isFetching, data } = useGetIncomeQuery(page);
   useEffect(() => {
-    setPageCount(data?.pageCount);
+    if (data) setPageCount(data.pageCount);
   }, [data]);
 
   const nextPage = () => {
@@ -26,16 +29,22 @@ const Income = () => {
     }
   };
   return (
-    <section className="grid grid-cols-1fr-4fr gap-3 bg-slate-100 h-[100vh]">
+    <section className=" w-screen grid grid-cols-1 md:grid-cols-1fr-4fr  gap-3 bg-slate-100 h-[100vh]">
       <Sidebar />
-      <main className="bg-white relative">
-        <header className="my-4 mx-3 border-b p-3 ">
-          <div className="w-full flex justify-center items-center">
-            <h1 className="text-center  text-xl font-bold text-blue-950 mr-[5px]">
+      <main className="bg-white relative ">
+        <header className="my-4 mx-3 border-b p-3 flex md:block">
+          <button
+            onClick={() => dispatch(setShowSideBar(true))}
+            className="md:hidden"
+          >
+            <MdOutlineSort style={{ fontSize: "2rem" }} />
+          </button>
+          <div className="w-full flex justify-start ml-7 md:justify-center md:ml-0 items-center">
+            <h1 className="  text-xl font-bold text-blue-950 mr-[5px]">
               Total Income:
             </h1>
             <p className="text-green-500 font-semibold text-xl w-[10%]">
-              {data?.total_income ? (
+              {data?.total_income >= 0 ? (
                 `$${data.total_income}`
               ) : (
                 <Oval
@@ -50,17 +59,17 @@ const Income = () => {
             </p>
           </div>
         </header>
-        <div className="grid grid-cols-2fr-3fr">
+        <div className="grid grid-rows-1 sm:grid-cols-2fr-3fr ">
           {/* Form */}
           <div>
-            <Form setRecentlyAddedIncome={setRecentlyAddedIncome} />
+            <Form type={"Income"} />
           </div>
           {/* Incomes */}
           <div
             style={{ height: "calc(100vh - 7rem )" }}
             className="overflow-y-scroll"
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2   relative h-full">
               {isFetching &&
                 Array(10)
                   .fill(null)
@@ -79,26 +88,23 @@ const Income = () => {
                       </div>
                     </div>
                   ))}
-              {recentlyAddedIncome && (
-                <IncomeItem
-                  key={recentlyAddedIncome._id}
-                  id={recentlyAddedIncome.id}
-                  title={recentlyAddedIncome.title}
-                  amount={recentlyAddedIncome.amount}
-                  date={recentlyAddedIncome.date}
-                  description={recentlyAddedIncome.description}
-                />
-              )}
               {data?.incomes.map((income) => (
-                <IncomeItem
+                <Item
+                  type={"Income"}
                   key={income._id}
-                  id={income.id}
+                  id={income._id}
                   title={income.title}
                   amount={income.amount}
                   date={income.date}
                   description={income.description}
                 />
               ))}
+
+              {!data?.incomes.length && !isFetching && (
+                <h1 className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+                  No Income Yet
+                </h1>
+              )}
             </div>
           </div>
         </div>

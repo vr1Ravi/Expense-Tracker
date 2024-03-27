@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import income from "./slices/income_slice";
+import item from "./slices/item_slice";
 import { incomeApi } from "./components/apis/api.js";
 const store = configureStore({
   reducer: {
-    income,
+    item,
     [incomeApi.reducerPath]: incomeApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

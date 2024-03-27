@@ -1,15 +1,43 @@
 import { IoIosAddCircle } from "react-icons/io";
 import { Oval } from "react-loader-spinner";
-
-import { useAddIncomeMutation } from "./apis/api";
+import { useAddExpenseMutation, useAddIncomeMutation } from "./apis/api";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
+
 // eslint-disable-next-line react/prop-types
-const Form = ({ setRecentlyAddedIncome }) => {
-  const [addIncome, { error, isLoading, data }] = useAddIncomeMutation();
+const Form = ({ type }) => {
+  const [
+    addIncome,
+    { error: incomeError, isLoading: incomeIsLoading, data: incomeData },
+  ] = useAddIncomeMutation();
+  const [
+    addExpense,
+    { error: expenseError, isLoading: expenseIsLoading, data: expenseData },
+  ] = useAddExpenseMutation();
 
   useEffect(() => {
-    setRecentlyAddedIncome(data?.income);
-  }, [data]);
+    if (incomeData || expenseData) {
+      toast.success(`${type} added`, {
+        duration: 3000,
+        position: "top-center",
+        icon: "✅",
+      });
+    }
+    if (incomeError || expenseError) {
+      toast.error(
+        incomeError ? incomeError.data.message : expenseError.data.message,
+        {
+          duration: 3000,
+          position: "top-center",
+          icon: "❎",
+          style: {
+            color: "crimson",
+          },
+        }
+      );
+    }
+  }, [incomeData, expenseData, incomeError, expenseError]);
+
   const handleIncomeSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -17,12 +45,12 @@ const Form = ({ setRecentlyAddedIncome }) => {
     const amount = formData.get("amount");
     const date = formData.get("date");
     const description = formData.get("description");
-    const newIncome = { title, amount, date, description };
-    addIncome(newIncome);
+    const newItem = { title, amount, date, description };
+    type === "Income" ? addIncome(newItem) : addExpense(newItem);
   };
   return (
     <form onSubmit={handleIncomeSubmit} className="p-4">
-      <label htmlFor="title">Income title:</label>
+      <label htmlFor="title"> {type} title:</label>
       <input
         className=" cursor-pointer p-2 outline-none border rounded-md w-full"
         type="text"
@@ -56,9 +84,9 @@ const Form = ({ setRecentlyAddedIncome }) => {
 
       <button
         type="submit"
-        className="flex w-1/2 mx-auto items-center my-2 bg-blue-950 p-2 rounded-md text-white justify-center"
+        className="flex  mx-auto items-center my-2 bg-blue-950 p-2 rounded-md text-white justify-center"
       >
-        {isLoading ? (
+        {incomeIsLoading || expenseIsLoading ? (
           <Oval
             visible={true}
             height="20"
@@ -68,18 +96,17 @@ const Form = ({ setRecentlyAddedIncome }) => {
             wrapperStyle={{ margin: "0 auto" }}
           />
         ) : (
-          <>
-            <IoIosAddCircle
-              style={{
-                marginRight: "5px",
-                fontSize: "20px",
-                color: "lime",
-                borderRadius: "100%",
-              }}
-            />
-            Add Income
-          </>
+          <IoIosAddCircle
+            style={{
+              marginRight: "5px",
+              fontSize: "20px",
+              color: "lime",
+              borderRadius: "100%",
+            }}
+          />
         )}
+
+        {type === "Income" ? "Add Income" : "Add Expense"}
       </button>
     </form>
   );
