@@ -4,11 +4,34 @@ import { CgDollar } from "react-icons/cg";
 import { SlCalender } from "react-icons/sl";
 import { IoChatbubbleSharp } from "react-icons/io5";
 import { useRemoveExpenseMutation, useRemoveIncomeMutation } from "./apis/api";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 // eslint-disable-next-line react/prop-types
 const Item = ({ type, id, title, amount, date, description }) => {
-  const [removeIncome] = useRemoveIncomeMutation();
-  const [removeExpense] = useRemoveExpenseMutation();
+  const [removeIncome, { data: income_remove_data, error: income_add_error }] =
+    useRemoveIncomeMutation();
+
+  const [
+    removeExpense,
+    { data: expense_remove_data, error: expense_add_error },
+  ] = useRemoveExpenseMutation();
+  useEffect(() => {
+    if (income_remove_data) {
+      toast.success(`income removed`, {
+        duration: 3000,
+        position: "top-center",
+        icon: "✅",
+      });
+    }
+    if (expense_remove_data) {
+      toast.success(`expense removed`, {
+        duration: 3000,
+        position: "top-center",
+        icon: "✅",
+      });
+    }
+  }, [income_remove_data, expense_remove_data]);
 
   const handleDeleteIcome = (id) => {
     if (type === "Income") {

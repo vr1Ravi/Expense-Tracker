@@ -41,24 +41,28 @@ const Sidebar = () => {
       <div className="my-6 mx-3 flex flex-col justify-center">
         <ul className="m-4">
           <Li
+            dispatch={dispatch}
             location={location}
             url={"/"}
             text={"Dashboard"}
             Icon={MdDashboard}
           />
           <Li
+            dispatch={dispatch}
             location={location}
             url={"/transaction"}
             text={"Transactions"}
             Icon={AiOutlineTransaction}
           />
           <Li
+            dispatch={dispatch}
             location={location}
             url={"/income"}
             text={"Income"}
             Icon={FaMoneyBillTrendUp}
           />
           <Li
+            dispatch={dispatch}
             location={location}
             url={"/expense"}
             text={"Expense"}
@@ -74,8 +78,9 @@ const Sidebar = () => {
 };
 
 // eslint-disable-next-line react/prop-types
-const Li = ({ location, url, text, Icon }) => (
+const Li = ({ dispatch, location, url, text, Icon }) => (
   <li
+    onClick={() => dispatch(setShowSideBar(false))}
     className={`flex items-center my-4 rounded-md p-2 ${
       // eslint-disable-next-line react/prop-types
       location.pathname === url ? "text-blue-500 bg-blue-100" : "text-black"
