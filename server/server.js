@@ -1,5 +1,6 @@
 import { app } from "./app.js";
 import { connectMongoDb } from "./utils/mongodb.js";
+import { fast2SMS } from "./utils/otp.util.js";
 
 const PORT = process.env.PORT || 3000;
 

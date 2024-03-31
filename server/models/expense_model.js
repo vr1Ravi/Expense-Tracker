@@ -14,13 +14,10 @@ const ExpenseSchema = new mongoose.Schema(
       trim: true,
       maxLegth: 20,
     },
-    type: {
-      type: String,
-      default: "Expense",
-    },
+
     date: {
       type: String,
-      required: true,
+      requireds: true,
       trim: true,
     },
     description: {

@@ -1,6 +1,6 @@
 import NodeCache from "node-cache";
 import { Expense } from "../models/expense_model.js";
-
+import { Transaction } from "../models/transaction_model.js";
 const nodeCache = new NodeCache();
 export const addExpense = async (req, res) => {
   try {
@@ -36,6 +36,15 @@ export const addExpense = async (req, res) => {
 
     total_expense += amount;
     nodeCache.set("total_expense", total_expense);
+
+    await Transaction.create({
+      _id: income._id,
+      title: income.title,
+      amount: income.amount,
+      date: income.date,
+      description: income.description,
+      type: "expense",
+    });
     return res.status(201).json({
       message: "Expense added",
       success: true,
@@ -119,6 +128,7 @@ export const deleteExpense = async (req, res) => {
       });
     }
     await Expense.deleteOne({ _id: id });
+    await Transaction.deleteOne({ _id: id });
     let total_expense;
     if (nodeCache.get("total_expense")) {
       total_expense = JSON.parse(nodeCache.get("total_expense"));
@@ -135,7 +145,6 @@ export const deleteExpense = async (req, res) => {
       message: "Expense deleted",
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",

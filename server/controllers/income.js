@@ -1,6 +1,6 @@
 import { Income } from "../models/income_model.js";
 import Nodecache from "node-cache";
-
+import { Transaction } from "../models/transaction_model.js";
 // nodecache
 const nodeCache = new Nodecache();
 
@@ -39,6 +39,16 @@ export const addIncome = async (req, res) => {
     total_income += income.amount;
     nodeCache.set("total_income", JSON.stringify(total_income));
 
+    // Adding to transaction
+    await Transaction.create({
+      _id: income._id,
+      title: income.title,
+      amount: income.amount,
+      date: income.date,
+      description: income.description,
+      type: "income",
+    });
+
     return res.status(201).json({
       message: "Income added",
       success: true,
@@ -46,6 +56,7 @@ export const addIncome = async (req, res) => {
       total_income,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -124,6 +135,7 @@ export const deleteIncome = async (req, res) => {
       });
     }
     await Income.deleteOne({ _id: id });
+    await Transaction.deleteOne({ _id: id });
     let total_income;
     if (nodeCache.get("total_income")) {
       total_income = JSON.parse(nodeCache.get("total_income"));
