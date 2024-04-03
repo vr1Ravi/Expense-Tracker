@@ -19,6 +19,8 @@ const VerifyOtp = () => {
           user_id: id,
         },
         {
+          withCredentials: true,
+          httpOnly: false,
           headers: {
             "Content-Type": "application/json",
           },

@@ -1,6 +1,7 @@
 import { Income } from "../models/income_model.js";
 import Nodecache from "node-cache";
 import { Transaction } from "../models/transaction_model.js";
+import { User } from "../models/user_model.js";
 // nodecache
 const nodeCache = new Nodecache();
 
@@ -69,11 +70,10 @@ const ITEMS_PER_PAGE = 10;
 export const getIncomes = async (req, res) => {
   try {
     const { page } = req.query;
-
-    const skip = (page - 1) * ITEMS_PER_PAGE;
-
-    const itemsCountPromise = Income.estimatedDocumentCount({});
-    const incomesPromise = Income.find({})
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    const user = req.user;
+    const itemsCountPromise = user.incomes.length;
+    const incomesPromise = user.incomes
       .limit(ITEMS_PER_PAGE)
       .skip(skip)
       .sort({ createdAt: -1 });

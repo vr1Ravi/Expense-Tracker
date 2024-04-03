@@ -14,6 +14,7 @@ const Income = () => {
   const [pageCount, setPageCount] = useState(1);
   const dispatch = useDispatch();
   const { isFetching, data } = useGetIncomeQuery(page);
+  
   useEffect(() => {
     if (data) setPageCount(data.pageCount);
   }, [data]);

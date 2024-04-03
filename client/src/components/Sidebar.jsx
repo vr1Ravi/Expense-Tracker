@@ -32,7 +32,7 @@ const Sidebar = () => {
       <div className="my-4 mx-3 flex items-center">
         <img className="w-14 mr-2" src={avatar} alt="avatar" />
         <div>
-          <h2 className="text-xl font-semibold">Ravishankar</h2>
+          <h2 className="text-xl font-semibold">Hello, Friend</h2>
           <small>Your Money</small>
         </div>
       </div>
@@ -68,11 +68,12 @@ const Sidebar = () => {
             text={"Expense"}
             Icon={GiPayMoney}
           />
-          <li className="flex items-center my-4 rounded-md p-2 cursor-pointer">
+          <li className="flex items-center my-4 rounded-md p-2 cursor-pointer mb-auto">
             <CiLight className="mr-2" /> <p>Light</p>
           </li>
         </ul>
       </div>
+      <p className="mt-auto mb-4 ">Logout</p>
     </aside>
   );
 };

@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { router as transactions } from "./routes/transactions.js";
@@ -15,6 +16,7 @@ const app = express();
 
 // middlewares
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use("/api/v1", transactions);
 
