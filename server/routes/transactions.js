@@ -5,7 +5,11 @@ import {
   deleteExpense,
   getExpenses,
 } from "../controllers/expense.js";
-import { registerUser, verifyOTP } from "../controllers/user.js";
+import {
+  getTransactions,
+  registerUser,
+  verifyOTP,
+} from "../controllers/user.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = Router();
@@ -23,5 +27,6 @@ router.route("/delete-expense/:id").delete(isAuthenticated, deleteExpense);
 // user
 router.route("/register-or-login").post(registerUser);
 router.route("/verify-otp").post(verifyOTP);
+router.route("/get-transactions").get(isAuthenticated, getTransactions);
 
 export { router };

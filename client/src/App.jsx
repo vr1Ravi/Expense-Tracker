@@ -19,18 +19,38 @@ function App() {
       <Provider store={store}>
         <Suspense fallback={<Loader />}>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route
+              path="/"
+              element={cookies.token ? <Dashboard /> : <LoginOrReg />}
+            />
             <Route
               path="/welcome"
-              element={cookies ? <Navigate to="/" replace /> : <LoginOrReg />}
+              element={
+                cookies.token ? <Navigate to="/" replace /> : <LoginOrReg />
+              }
             />
             <Route
               path="/verify/:id"
-              element={cookies ? <Navigate to="/" replace /> : <VerifyOtp />}
+              element={
+                cookies.token ? <Navigate to="/" replace /> : <VerifyOtp />
+              }
             />
-            <Route path="/income" element={<Income />} />
-            <Route path="/transaction" element={<Transaction />} />
-            <Route path="/expense" element={<Expense />} />
+            <Route
+              path="/income"
+              element={cookies.token ? <Income /> : <Navigate to="/" replace />}
+            />
+            <Route
+              path="/transaction"
+              element={
+                cookies.token ? <Transaction /> : <Navigate to="/" replace />
+              }
+            />
+            <Route
+              path="/expense"
+              element={
+                cookies.token ? <Expense /> : <Navigate to="/" replace />
+              }
+            />
           </Routes>
         </Suspense>
       </Provider>

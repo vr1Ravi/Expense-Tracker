@@ -8,8 +8,8 @@ export const creteToken = (payload) => {
 
 export const verifyToken = (token) => {
   try {
-    const { user_id } = jwt.verify(token, process.env.JWT_SECRET);
-    return user_id;
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+    return _id;
   } catch (error) {
     return null;
   }

@@ -26,6 +26,8 @@ const userSchema = new mongoose.Schema({
     },
   ],
   phoneOTP: String,
+  total_income: Number,
+  total_expense: Number,
 });
 
 export const User = mongoose.model("User", userSchema);

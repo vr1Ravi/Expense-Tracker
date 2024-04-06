@@ -1,16 +1,24 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const incomeApi = createApi({
   reducerPath: "incomeApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/v1/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5000/api/v1/",
+  }),
   tagTypes: ["income"],
   endpoints: (builder) => ({
     getIncome: builder.query({
-      query: (page = 1) => `get-incomes?page=${page}`,
+      query: (page = 1) => ({
+        url: `get-incomes?page=${page}`,
+        credentials: "include",
+      }),
       providesTags: ["income"],
       transformResponse: (response) => response.response,
     }),
     getExpense: builder.query({
-      query: (page = 1) => `get-expenses?page=${page}`,
+      query: (page = 1) => ({
+        url: `get-expenses?page=${page}`,
+        credentials: "include",
+      }),
       providesTags: ["expense"],
       transformResponse: (response) => response.response,
     }),
@@ -19,33 +27,45 @@ export const incomeApi = createApi({
         url: "add-income",
         method: "POST",
         body: newIncome,
+        credentials: "include",
       }),
-      invalidatesTags: ["income"],
+      invalidatesTags: ["income", "transaction"],
     }),
     addExpense: builder.mutation({
       query: (newExpense) => ({
         url: "add-expense",
         method: "POST",
         body: newExpense,
+        credentials: "include",
       }),
-      invalidatesTags: ["expense"],
+      invalidatesTags: ["expense", "transaction"],
     }),
     removeIncome: builder.mutation({
       query: (id) => ({
         url: `delete-income/${id}`,
         method: "DELETE",
+        credentials: "include",
       }),
-      invalidatesTags: ["income"],
+      invalidatesTags: ["income", "transaction"],
     }),
     removeExpense: builder.mutation({
       query: (id) => ({
         url: `delete-expense/${id}`,
         method: "DELETE",
+        credentials: "include",
       }),
-      invalidatesTags: ["expense"],
+      invalidatesTags: ["expense", "transaction"],
+    }),
+    getTransactions: builder.query({
+      query: (page) => ({
+        url: `get-transactions?page=${page}`,
+        credentials: "include",
+      }),
+      providesTags: ["transaction"],
     }),
   }),
 });
+
 export const {
   useGetIncomeQuery,
   useAddIncomeMutation,
@@ -53,4 +73,5 @@ export const {
   useGetExpenseQuery,
   useAddExpenseMutation,
   useRemoveExpenseMutation,
+  useGetTransactionsQuery,
 } = incomeApi;

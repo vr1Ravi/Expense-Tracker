@@ -14,7 +14,7 @@ const Income = () => {
   const [pageCount, setPageCount] = useState(1);
   const dispatch = useDispatch();
   const { isFetching, data } = useGetIncomeQuery(page);
-  
+
   useEffect(() => {
     if (data) setPageCount(data.pageCount);
   }, [data]);
@@ -29,6 +29,7 @@ const Income = () => {
       setPage(page - 1);
     }
   };
+
   return (
     <section className=" w-screen grid grid-cols-1 md:grid-cols-1fr-4fr  gap-3 bg-slate-100 h-[100vh]">
       <Sidebar />
@@ -44,7 +45,7 @@ const Income = () => {
             <h1 className="  text-xl font-bold text-blue-950 mr-[5px]">
               Total Income:
             </h1>
-            <p className="text-green-500 font-semibold text-xl w-[10%]">
+            <div className="text-green-500 font-semibold text-xl w-[10%]">
               {data?.total_income >= 0 ? (
                 `$${data.total_income}`
               ) : (
@@ -57,7 +58,7 @@ const Income = () => {
                   wrapperStyle={{ marginLeft: "10px" }}
                 />
               )}
-            </p>
+            </div>
           </div>
         </header>
         <div className="grid grid-rows-1 sm:grid-cols-2fr-3fr ">

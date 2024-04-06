@@ -15,7 +15,7 @@ const Expense = () => {
   const [pageCount, setPageCount] = useState(1);
   const dispatch = useDispatch();
   const { isFetching, data } = useGetExpenseQuery(page);
-
+  console.log(data);
   useEffect(() => {
     if (data) setPageCount(data.pageCount);
   }, [data]);
@@ -45,7 +45,7 @@ const Expense = () => {
             <h1 className="  text-xl font-bold text-blue-950 mr-[5px]">
               Total Expense:
             </h1>
-            <p className="text-green-500 font-semibold text-xl w-[10%]">
+            <div className="text-green-500 font-semibold text-xl w-[10%]">
               {data?.total_expense >= 0 ? (
                 `$${data.total_expense}`
               ) : (
@@ -58,7 +58,7 @@ const Expense = () => {
                   wrapperStyle={{ marginLeft: "10px" }}
                 />
               )}
-            </p>
+            </div>
           </div>
         </header>
         <div className="grid grid-rows-1 sm:grid-cols-2fr-3fr ">

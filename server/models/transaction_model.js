@@ -17,7 +17,7 @@ const TransactionSchema = new mongoose.Schema({
     trim: true,
     maxLegth: 20,
   },
-  type: {
+  category: {
     type: String,
     required: true,
   },

@@ -16,7 +16,7 @@ export const registerUser = async (req, res) => {
     const otp = createOTP();
     user.phoneOTP = otp;
     await user.save();
-    console.log(user);
+
     // send OTP
     await fast2SMS({
       message: `Your OTP is ${otp}`,
@@ -39,6 +39,7 @@ export const verifyOTP = async (req, res) => {
   try {
     const { otp, user_id } = req.body;
     const user = await User.findById(user_id);
+
     if (otp !== user.phoneOTP) {
       return res.status(400).json({
         message: "Invalid otp",
@@ -48,25 +49,47 @@ export const verifyOTP = async (req, res) => {
     const token = creteToken({ _id: user._id });
     return res
       .cookie("token", token, {
-        withCredentials: true,
-        httpOnly: false,
         expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
       })
       .json({
         message: "Welcome friend",
       });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       message: "Internal server error",
     });
   }
 };
 
+const ITEMS_PER_PAGE = 10;
 export const getTransactions = async (req, res) => {
   try {
-    // const
+    const { page } = req.query;
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    let user = req.user;
+
+    console.log(user.transactions.length);
+    user = await User.findById(user._id).populate({
+      path: "transactions",
+      options: { skip: start, limit: ITEMS_PER_PAGE },
+    });
+    console.log(user);
+
+    const itemsCount = user.transactions.length;
+    console.log(itemsCount);
+    const pageCount = Math.ceil(itemsCount / ITEMS_PER_PAGE) || 1;
+
+    const transactions = user.transactions.slice(start, start + ITEMS_PER_PAGE);
+    const total_income = user.total_income;
+    const total_expense = user.total_expense;
+    return res.status(200).json({
+      total_income,
+      total_expense,
+      transactions,
+      pageCount,
+    });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
