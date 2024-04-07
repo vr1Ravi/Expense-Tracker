@@ -7,8 +7,16 @@ import { useRemoveExpenseMutation, useRemoveIncomeMutation } from "./apis/api";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-// eslint-disable-next-line react/prop-types
-const Item = ({ type, id, title, amount, date, description }) => {
+const Item = ({
+  type,
+  id,
+  title,
+  amount,
+  date,
+  description,
+  isDashboard = false,
+}) => {
+  console.log(type);
   const [removeIncome, { data: income_remove_data, error: income_add_error }] =
     useRemoveIncomeMutation();
 
@@ -46,7 +54,7 @@ const Item = ({ type, id, title, amount, date, description }) => {
         <div className="flex items-center">
           <GoDotFill
             style={{
-              color: type === "Income" ? "green" : "crimson",
+              color: type === "income" ? "green" : "crimson",
               marginRight: "6px",
             }}
           />
@@ -66,15 +74,17 @@ const Item = ({ type, id, title, amount, date, description }) => {
           </small>
         </div>
       </div>
-      <button onClick={() => handleDeleteIcome(id)} className=" h-6">
-        <MdDeleteSweep
-          style={{
-            fontSize: "1.5rem",
-            color: "crimson",
-            cursor: "pointer",
-          }}
-        />
-      </button>
+      {!isDashboard && (
+        <button onClick={() => handleDeleteIcome(id)} className=" h-6">
+          <MdDeleteSweep
+            style={{
+              fontSize: "1.5rem",
+              color: "crimson",
+              cursor: "pointer",
+            }}
+          />
+        </button>
+      )}
     </div>
   );
 };

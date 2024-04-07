@@ -92,7 +92,7 @@ const Income = () => {
                   ))}
               {data?.incomes.map((income) => (
                 <Item
-                  type={"Income"}
+                  type={"income"}
                   key={income._id}
                   id={income._id}
                   title={income.title}

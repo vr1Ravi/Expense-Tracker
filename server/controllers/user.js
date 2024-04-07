@@ -63,23 +63,20 @@ export const verifyOTP = async (req, res) => {
 
 const ITEMS_PER_PAGE = 10;
 export const getTransactions = async (req, res) => {
+  const { page } = req.query;
+  const skip = (page - 1) * ITEMS_PER_PAGE;
+
   try {
-    const { page } = req.query;
-    const start = (page - 1) * ITEMS_PER_PAGE;
     let user = req.user;
 
-    console.log(user.transactions.length);
     user = await User.findById(user._id).populate({
       path: "transactions",
-      options: { skip: start, limit: ITEMS_PER_PAGE },
+      options: { skip: skip, limit: ITEMS_PER_PAGE },
     });
-    console.log(user);
-
     const itemsCount = user.transactions.length;
-    console.log(itemsCount);
     const pageCount = Math.ceil(itemsCount / ITEMS_PER_PAGE) || 1;
 
-    const transactions = user.transactions.slice(start, start + ITEMS_PER_PAGE);
+    const transactions = user.transactions;
     const total_income = user.total_income;
     const total_expense = user.total_expense;
     return res.status(200).json({

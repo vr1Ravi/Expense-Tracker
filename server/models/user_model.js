@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   transactions: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Expense",
+      ref: "Transaction",
     },
   ],
   phoneOTP: String,

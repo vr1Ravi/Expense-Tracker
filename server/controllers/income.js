@@ -70,7 +70,7 @@ export const getIncomes = async (req, res) => {
       path: "incomes",
       options: { skip: start, limit: ITEMS_PER_PAGE },
     });
-    console.log(user);
+
     const incomes = user.incomes.slice(start, start + ITEMS_PER_PAGE);
     const total_income = user.total_income || 0;
     return res.status(200).json({
