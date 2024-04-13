@@ -61,7 +61,7 @@ const Transaction = () => {
   return (
     <section className="grid  grid-cols-1 md:grid-cols-1fr-4fr  gap-3 bg-slate-100 h-[100vh] overflow-y-auto ">
       <Sidebar />
-      <main className="bg-white relative px-3">
+      <main className="bg-white relative px-3 dark:bg-slate-800 dark:text-white">
         <header className="my-4 mx-3 border-b p-3 flex md:block">
           <button
             onClick={() => dispatch(setShowSideBar(true))}
@@ -70,7 +70,7 @@ const Transaction = () => {
             <MdOutlineSort style={{ fontSize: "2rem" }} />
           </button>
           <div className="w-full flex justify-start ml-7 md:justify-center md:ml-0 items-center">
-            <h1 className="  text-xl font-bold text-blue-950 mr-[5px]">
+            <h1 className="  text-xl font-bold text-blue-950 mr-[5px] dark:text-white">
               Transactions
             </h1>
           </div>

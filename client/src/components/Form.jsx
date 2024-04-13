@@ -52,7 +52,7 @@ const Form = ({ type }) => {
     <form onSubmit={handleIncomeSubmit} className="p-4">
       <label htmlFor="title"> {type} title:</label>
       <input
-        className=" cursor-pointer p-2 outline-none border rounded-md w-full"
+        className=" dark:text-black cursor-pointer p-2 outline-none border rounded-md w-full"
         type="text"
         id="title"
         name="title"
@@ -61,14 +61,14 @@ const Form = ({ type }) => {
 
       <label htmlFor="amount">Amount:</label>
       <input
-        className=" cursor-pointer p-2 outline-none border rounded-md w-full"
+        className="dark:text-black  cursor-pointer p-2 outline-none border rounded-md w-full"
         type="number"
         id="amount"
         name="amount"
       />
       <label htmlFor="date">Date:</label>
       <input
-        className=" cursor-pointer p-2 outline-none border rounded-md w-full"
+        className="dark:text-black  cursor-pointer p-2 outline-none border rounded-md w-full"
         type="date"
         id="date"
         name="date"
@@ -76,7 +76,7 @@ const Form = ({ type }) => {
 
       <label htmlFor="description">Reference:</label>
       <textarea
-        className=" cursor-pointer p-2 outline-none border rounded-md w-full"
+        className="dark:text-black  cursor-pointer p-2 outline-none border rounded-md w-full"
         id="description"
         name="description"
         maxLength={55}

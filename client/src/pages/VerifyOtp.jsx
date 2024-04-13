@@ -33,8 +33,7 @@ const VerifyOtp = () => {
         icon: "✅",
       });
     } catch (error) {
-      console.log(error);
-      toast.error(error.data.response.message, {
+      toast.error(error.response.data.message, {
         duration: 3000,
         position: "top-center",
         icon: "❎",

@@ -28,7 +28,6 @@ export const fast2SMS = async ({ message, contact_number }) => {
         },
       }
     );
-    console.log(data);
   } catch (error) {
     return console.log("Err->", error);
   }

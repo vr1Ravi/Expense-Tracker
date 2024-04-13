@@ -23,7 +23,6 @@ const LoginOrReg = () => {
         icon: "✅",
       });
     } catch (error) {
-      console.log(error);
       toast.error(error.data.response.message, {
         duration: 3000,
         position: "top-center",

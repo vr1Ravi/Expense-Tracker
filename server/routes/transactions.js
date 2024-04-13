@@ -9,6 +9,7 @@ import {
   getTransactions,
   registerUser,
   verifyOTP,
+  logoutUser,
 } from "../controllers/user.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
@@ -28,5 +29,6 @@ router.route("/delete-expense/:id").delete(isAuthenticated, deleteExpense);
 router.route("/register-or-login").post(registerUser);
 router.route("/verify-otp").post(verifyOTP);
 router.route("/get-transactions").get(isAuthenticated, getTransactions);
+router.route("/logout").get(isAuthenticated, logoutUser);
 
 export { router };

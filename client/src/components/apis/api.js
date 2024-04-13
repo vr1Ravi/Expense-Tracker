@@ -4,7 +4,7 @@ export const incomeApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/v1/",
   }),
-  tagTypes: ["income"],
+  tagTypes: ["income", "expense", "transaction"],
   endpoints: (builder) => ({
     getIncome: builder.query({
       query: (page = 1) => ({

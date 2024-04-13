@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import { setShowSideBar } from "../slices/item_slice";
 import { useDispatch } from "react-redux";
 import { Line } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,8 +14,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+
 import { useGetTransactionsQuery } from "../components/apis/api";
 import Item from "../components/Item";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -43,8 +46,9 @@ const Dashboard = () => {
   };
   const chart_data = {
     labels: data?.transactions
-      .map((transaction) => transaction.date)
-      .sort((a, b) => a - b),
+      .map((transaction) => new Date(transaction.date))
+      .sort((a, b) => a - b)
+      .map((transaction) => transaction.toISOString().split("T")[0]),
     datasets: [
       {
         label: "Income",
@@ -64,11 +68,11 @@ const Dashboard = () => {
       },
     ],
   };
-  console.log(data);
+
   return (
     <section className="grid grid-cols-1 md:grid-cols-1fr-4fr gap-3 bg-slate-100 h-[100vh] overflow-y-auto">
       <Sidebar />
-      <main className="bg-white">
+      <main className="bg-white dark:bg-slate-800 dark:text-white">
         <header className="my-4 mx-3 border-b p-3 flex md:block">
           <button
             onClick={() => dispatch(setShowSideBar(true))}
@@ -77,7 +81,7 @@ const Dashboard = () => {
             <MdOutlineSort style={{ fontSize: "2rem" }} />
           </button>
           <div className="w-full flex justify-start ml-7 md:justify-center md:ml-0 items-center">
-            <h1 className="  text-xl font-bold text-blue-950 mr-[5px]">
+            <h1 className="  text-xl font-bold text-blue-950 mr-[5px] dark:text-white">
               Dashboard
             </h1>
           </div>
@@ -86,8 +90,8 @@ const Dashboard = () => {
           <div className="w-full p-2 md:w-1/2">
             <Line options={chart_options} data={chart_data} />
           </div>
-          <div className="flex flex-col w-1/2 gap-3">
-            <h1 className="text-xl font-bold text-blue-950 text-center">
+          <div className="flex flex-col w-full p-2 md:w-1/2 gap-3">
+            <h1 className="text-xl font-bold text-blue-950 text-center dark:text-white">
               Recent Transactions
             </h1>
             {data?.transactions.slice(-3).map((transaction) => (

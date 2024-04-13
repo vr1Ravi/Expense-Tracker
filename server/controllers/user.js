@@ -24,11 +24,10 @@ export const registerUser = async (req, res) => {
     });
 
     return res.status(201).json({
-      message: "Welcom account created OTP sended to mobile number",
+      message: "Welcome account created OTP sended to mobile number",
       user_id: user._id,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       message: "Internal server Error",
     });
@@ -49,7 +48,7 @@ export const verifyOTP = async (req, res) => {
     const token = creteToken({ _id: user._id });
     return res
       .cookie("token", token, {
-        expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       })
       .json({
         message: "Welcome friend",
@@ -79,6 +78,7 @@ export const getTransactions = async (req, res) => {
     const transactions = user.transactions;
     const total_income = user.total_income;
     const total_expense = user.total_expense;
+
     return res.status(200).json({
       total_income,
       total_expense,
@@ -86,7 +86,19 @@ export const getTransactions = async (req, res) => {
       pageCount,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+export const logoutUser = async (req, res) => {
+  try {
+    return res.cookie("token", null).json({
+      message: "See you again",
+    });
+  } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",

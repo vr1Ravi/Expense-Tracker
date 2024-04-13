@@ -16,7 +16,6 @@ const Item = ({
   description,
   isDashboard = false,
 }) => {
-  console.log(type);
   const [removeIncome, { data: income_remove_data, error: income_add_error }] =
     useRemoveIncomeMutation();
 
@@ -58,7 +57,9 @@ const Item = ({
               marginRight: "6px",
             }}
           />
-          <h1 className="text-x font-semibold text-blue-950">{title}</h1>
+          <h1 className="text-x font-semibold text-blue-950 dark:text-white">
+            {title}
+          </h1>
         </div>
 
         <div className="flex mt-2 w-[120%] items-center">
