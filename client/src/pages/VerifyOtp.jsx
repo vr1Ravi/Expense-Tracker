@@ -13,7 +13,7 @@ const VerifyOtp = () => {
   const handleVerifyOtp = async () => {
     try {
       const { data } = await axios.post(
-        "/api/v1/verify-otp",
+        "https://expense-tracker-rlxs.onrender.com/api/v1/verify-otp",
         {
           otp,
           user_id: id,

@@ -8,7 +8,7 @@ const LoginOrReg = () => {
   const handleLogin = async () => {
     try {
       const { data } = await axios.post(
-        "/api/v1/register-or-login",
+        "https://expense-tracker-rlxs.onrender.com/api/v1/register-or-login",
         { mobile: phone },
         {
           headers: {

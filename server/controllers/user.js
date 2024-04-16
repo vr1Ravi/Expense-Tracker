@@ -49,6 +49,9 @@ export const verifyOTP = async (req, res) => {
     return res
       .cookie("token", token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        SameSite: "None",
+        httpOnly: true,
+        secure: true,
       })
       .json({
         message: "Welcome friend",

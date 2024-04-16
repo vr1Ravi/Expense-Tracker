@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const incomeApi = createApi({
   reducerPath: "incomeApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://expense-tracker-rlxs.onrender.com/api/v1/",
   }),
   tagTypes: ["income", "expense", "transaction"],
   endpoints: (builder) => ({
