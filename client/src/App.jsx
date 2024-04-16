@@ -13,7 +13,7 @@ const Expense = lazy(() => import("./pages/Expense"));
 
 function App() {
   const [cookies] = useCookies(["token"]);
-
+  console.log(cookies);
   return (
     <BrowserRouter>
       <Provider store={store}>

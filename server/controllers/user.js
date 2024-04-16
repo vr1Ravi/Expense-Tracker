@@ -48,10 +48,7 @@ export const verifyOTP = async (req, res) => {
     const token = creteToken({ _id: user._id });
     return res
       .cookie("token", token, {
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        SameSite: "None",
-        httpOnly: true,
-        secure: true,
+        maxAge: 172800000,
       })
       .json({
         message: "Welcome friend",
