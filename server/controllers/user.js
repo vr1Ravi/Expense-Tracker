@@ -92,7 +92,7 @@ export const getTransactions = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
   try {
-    return res.cookie("token", null).json({
+    return res.status(200).json({
       message: "See you again",
     });
   } catch (error) {

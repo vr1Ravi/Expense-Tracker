@@ -3,16 +3,15 @@ import OtpInput from "react-otp-input";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 const VerifyOtp = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const handleVerifyOtp = async () => {
     try {
       const { data } = await axios.post(
         "https://expense-tracker-backend-umber.vercel.app/api/v1/verify-otp",
+        // "/api/v1/verify-otp",
 
         {
           otp,
@@ -26,7 +25,7 @@ const VerifyOtp = () => {
         }
       );
       localStorage.setItem("token", data.token);
-      setTimeout(() => navigate(`/`), 1000);
+      setTimeout(() => location.reload("/"), 1000);
       toast.success(`${data?.message}`, {
         duration: 3000,
         position: "top-center",

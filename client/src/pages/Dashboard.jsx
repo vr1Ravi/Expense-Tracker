@@ -71,15 +71,16 @@ const Dashboard = () => {
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-1fr-4fr gap-3 bg-slate-100 h-[100vh] overflow-y-auto">
-      {error &&
-        toast.error(error.data.message, {
-          duration: 3000,
-          position: "top-center",
-          icon: "❎",
-          style: {
-            color: "crimson",
-          },
-        })}
+      {error
+        ? toast.error(error.data.message, {
+            duration: 3000,
+            position: "top-center",
+            icon: "❎",
+            style: {
+              color: "crimson",
+            },
+          })
+        : null}
       <Sidebar />
       <main className="bg-white dark:bg-slate-800 dark:text-white">
         <header className="my-4 mx-3 border-b p-3 flex md:block">

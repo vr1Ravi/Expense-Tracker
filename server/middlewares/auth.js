@@ -3,7 +3,7 @@ import { verifyToken } from "../utils/token.util.js";
 import { User } from "../models/user_model.js";
 export const isAuthenticated = async (req, res, next) => {
   try {
-    const { token } = req.cookies;
+    const token = req.headers.authorization;
     if (!token) {
       return res.status(400).json({
         message: "Login first",

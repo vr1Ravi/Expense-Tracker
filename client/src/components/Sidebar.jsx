@@ -1,5 +1,5 @@
 import avatar from "../assets/avatar.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
@@ -14,9 +14,8 @@ import { MdDarkMode } from "react-icons/md";
 import toast from "react-hot-toast";
 import axios from "axios";
 const Sidebar = () => {
-  const location = useLocation();
+  const currentLocation = useLocation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
 
   const { showSidebar, theme } = useSelector((state) => state.item);
@@ -41,15 +40,21 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      const { data } = axios.get("/api/v1/logout");
+      const { data } = await axios.get("/api/v1/logout", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      console.log(data);
+      localStorage.removeItem("token");
       toast.success(`${data.message}`, {
         duration: 3000,
         position: "top-center",
         icon: "✅",
       });
-      setTimeout(navigate("/"), 2000);
+      setTimeout(() => location.reload("/"), 1000);
     } catch (error) {
-      toast.error(error?.data.response.message, {
+      toast.error(error?.response.data.message, {
         duration: 3000,
         position: "top-center",
         icon: "❎",
@@ -88,28 +93,28 @@ const Sidebar = () => {
         <ul className="m-4 ">
           <Li
             dispatch={dispatch}
-            location={location}
+            currentLocation={currentLocation}
             url={"/"}
             text={"Dashboard"}
             Icon={MdDashboard}
           />
           <Li
             dispatch={dispatch}
-            location={location}
+            currentLocation={currentLocation}
             url={"/transaction"}
             text={"Transactions"}
             Icon={AiOutlineTransaction}
           />
           <Li
             dispatch={dispatch}
-            location={location}
+            currentLocation={currentLocation}
             url={"/income"}
             text={"Income"}
             Icon={FaMoneyBillTrendUp}
           />
           <Li
             dispatch={dispatch}
-            location={location}
+            currentLocation={currentLocation}
             url={"/expense"}
             text={"Expense"}
             Icon={GiPayMoney}
@@ -146,12 +151,12 @@ const Sidebar = () => {
 };
 
 // eslint-disable-next-line react/prop-types
-const Li = ({ dispatch, location, url, text, Icon }) => (
+const Li = ({ dispatch, currentLocation, url, text, Icon }) => (
   <li
     onClick={() => dispatch(setShowSideBar(false))}
     className={`dark:text-white  flex items-center my-4 rounded-md p-2 ${
       // eslint-disable-next-line react/prop-types
-      location.pathname === url
+      currentLocation.pathname === url
         ? "text-blue-500 dark:text-black dark:bg-gray-700 bg-blue-100"
         : "text-black"
     }`}

@@ -12,7 +12,6 @@ const Expense = lazy(() => import("./pages/Expense"));
 
 function App() {
   const [token, _] = useState(localStorage.getItem("token") || null);
-
   return (
     <BrowserRouter>
       <Provider store={store}>
