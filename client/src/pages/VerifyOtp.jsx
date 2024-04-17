@@ -13,7 +13,7 @@ const VerifyOtp = () => {
   const handleVerifyOtp = async () => {
     try {
       const { data } = await axios.post(
-        "https://expense-tracker-backend-umber.vercel.app//verify-otp",
+        "https://expense-tracker-backend-umber.vercel.app/verify-otp",
         {
           otp,
           user_id: id,
