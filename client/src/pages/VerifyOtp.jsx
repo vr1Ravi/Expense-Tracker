@@ -4,13 +4,10 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setToken } from "../slices/item_slice";
 
 const VerifyOtp = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
   const handleVerifyOtp = async () => {
     try {
@@ -28,7 +25,6 @@ const VerifyOtp = () => {
           },
         }
       );
-      dispatch(setToken(data.token));
       localStorage.setItem("token", data.token);
       setTimeout(() => navigate(`/`), 1000);
       toast.success(`${data?.message}`, {

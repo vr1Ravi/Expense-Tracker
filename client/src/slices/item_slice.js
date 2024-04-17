@@ -5,7 +5,6 @@ export const itemSlice = createSlice({
   initialState: {
     showSidebar: false,
     theme: localStorage.getItem("theme") || "light",
-    token: null,
   },
   reducers: {
     setShowSideBar: (state, action) => {
@@ -14,12 +13,9 @@ export const itemSlice = createSlice({
     setTheme: (state, action) => {
       state.theme = action.payload;
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
-    },
   },
 });
 
-export const { setShowSideBar, setTheme, setToken } = itemSlice.actions;
+export const { setShowSideBar, setTheme } = itemSlice.actions;
 
 export default itemSlice.reducer;

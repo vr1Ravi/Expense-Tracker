@@ -8,10 +8,10 @@ export const incomeApi = createApi({
   tagTypes: ["income", "expense", "transaction"],
   endpoints: (builder) => ({
     getIncome: builder.query({
-      query: (page = 1, token) => ({
+      query: (page = 1) => ({
         url: `get-incomes?page=${page}`,
         prepareHeaders: (headers) => {
-          headers.set("Authorization", token);
+          headers.set("Authorization", localStorage.getItem("token"));
           return headers;
         },
       }),
@@ -19,10 +19,10 @@ export const incomeApi = createApi({
       transformResponse: (response) => response.response,
     }),
     getExpense: builder.query({
-      query: (page = 1, token) => ({
+      query: (page = 1) => ({
         url: `get-expenses?page=${page}`,
         prepareHeaders: (headers) => {
-          headers.set("Authorization", token);
+          headers.set("Authorization", localStorage.getItem("token"));
           return headers;
         },
       }),
@@ -30,56 +30,56 @@ export const incomeApi = createApi({
       transformResponse: (response) => response.response,
     }),
     addIncome: builder.mutation({
-      query: (newIncome, token) => ({
+      query: (newIncome) => ({
         url: "add-income",
         method: "POST",
         body: newIncome,
         prepareHeaders: (headers) => {
-          headers.set("Authorization", token);
+          headers.set("Authorization", localStorage.getItem("token"));
           return headers;
         },
       }),
       invalidatesTags: ["income", "transaction"],
     }),
     addExpense: builder.mutation({
-      query: (newExpense, token) => ({
+      query: (newExpense) => ({
         url: "add-expense",
         method: "POST",
         body: newExpense,
         prepareHeaders: (headers) => {
-          headers.set("Authorization", token);
+          headers.set("Authorization", localStorage.getItem("token"));
           return headers;
         },
       }),
       invalidatesTags: ["expense", "transaction"],
     }),
     removeIncome: builder.mutation({
-      query: (id, token) => ({
+      query: (id) => ({
         url: `delete-income/${id}`,
         method: "DELETE",
         prepareHeaders: (headers) => {
-          headers.set("Authorization", token);
+          headers.set("Authorization", localStorage.getItem("token"));
           return headers;
         },
       }),
       invalidatesTags: ["income", "transaction"],
     }),
     removeExpense: builder.mutation({
-      query: (id, token) => ({
+      query: (id) => ({
         url: `delete-expense/${id}`,
         method: "DELETE",
         prepareHeaders: (headers) => {
-          headers.set("Authorization", token);
+          headers.set("Authorization", localStorage.getItem("token"));
           return headers;
         },
       }),
       invalidatesTags: ["expense", "transaction"],
     }),
     getTransactions: builder.query({
-      query: (page, token) => ({
+      query: (page) => ({
         url: `get-transactions?page=${page}`,
         prepareHeaders: (headers) => {
-          headers.set("Authorization", token);
+          headers.set("Authorization", localStorage.getItem("token"));
           return headers;
         },
       }),

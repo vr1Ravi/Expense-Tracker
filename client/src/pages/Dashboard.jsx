@@ -1,9 +1,8 @@
 import { MdOutlineSort } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
 import { setShowSideBar } from "../slices/item_slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Line } from "react-chartjs-2";
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,11 +13,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
 import { useGetTransactionsQuery } from "../components/apis/api";
 import Item from "../components/Item";
-import { useEffect } from "react";
 import toast from "react-hot-toast";
+import ItemLoading from "../components/ItemLoading";
 
 ChartJS.register(
   CategoryScale,
@@ -32,21 +30,7 @@ ChartJS.register(
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.item);
-  const { data, isFetching, error } = useGetTransactionsQuery(1, token);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.data.message, {
-        duration: 3000,
-        position: "top-center",
-        icon: "❎",
-        style: {
-          color: "crimson",
-        },
-      });
-    }
-  }, [error]);
+  const { data, isFetching, error } = useGetTransactionsQuery(1);
 
   const chart_options = {
     responsive: true,
@@ -87,6 +71,15 @@ const Dashboard = () => {
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-1fr-4fr gap-3 bg-slate-100 h-[100vh] overflow-y-auto">
+      {error &&
+        toast.error(error.data.message, {
+          duration: 3000,
+          position: "top-center",
+          icon: "❎",
+          style: {
+            color: "crimson",
+          },
+        })}
       <Sidebar />
       <main className="bg-white dark:bg-slate-800 dark:text-white">
         <header className="my-4 mx-3 border-b p-3 flex md:block">
@@ -110,6 +103,7 @@ const Dashboard = () => {
             <h1 className="text-xl font-bold text-blue-950 text-center dark:text-white">
               Recent Transactions
             </h1>
+            {isFetching && <ItemLoading />}
             {data?.transactions.slice(-3).map((transaction) => (
               <Item
                 isDashboard={true}

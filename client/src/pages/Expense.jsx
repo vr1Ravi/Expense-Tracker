@@ -2,20 +2,21 @@ import { MdOutlineSort } from "react-icons/md";
 import { setShowSideBar } from "../slices/item_slice";
 import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr";
 
 import Form from "../components/Form";
 import { useGetExpenseQuery } from "../components/apis/api";
 import Item from "../components/Item";
-import { Oval } from "react-loader-spinner";
+
 import toast from "react-hot-toast";
+import ItemLoading from "../components/ItemLoading";
+import OvalLoader from "../components/OvalLoader";
 const Expense = () => {
   const [page, setPage] = useState(1);
-  const { token } = useSelector((state) => state.item);
   const [pageCount, setPageCount] = useState(1);
   const dispatch = useDispatch();
-  const { isFetching, error, data } = useGetExpenseQuery(page, token);
+  const { isFetching, error, data } = useGetExpenseQuery(page);
 
   useEffect(() => {
     if (data) setPageCount(data.pageCount);
@@ -60,14 +61,7 @@ const Expense = () => {
               {data?.total_expense >= 0 ? (
                 `$${data.total_expense}`
               ) : (
-                <Oval
-                  visible={true}
-                  height="20"
-                  width="20"
-                  color="green"
-                  ariaLabel="oval-loading"
-                  wrapperStyle={{ marginLeft: "10px" }}
-                />
+                <OvalLoader />
               )}
             </div>
           </div>
@@ -83,24 +77,7 @@ const Expense = () => {
             className="overflow-y-scroll"
           >
             <div className="flex flex-col gap-2 relative h-full">
-              {isFetching &&
-                Array(10)
-                  .fill(null)
-                  .map((_, idx) => (
-                    <div
-                      key={idx}
-                      className="p-4  shadow-inner border border-slate-400  rounded-md px-2 mr-[5px]"
-                    >
-                      <div className="animate-pulse flex space-x-4">
-                        <div className="flex-1 space-y-6 py-1">
-                          <div className="h-2 bg-slate-700 rounded w-12"></div>
-                          <div className="space-y-3">
-                            <div className="h-2 bg-slate-700 rounded w-1/2"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+              {isFetching && <ItemLoading />}
 
               {data?.expenses.map((expense) => (
                 <Item
