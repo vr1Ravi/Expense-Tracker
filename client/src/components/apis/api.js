@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const incomeApi = createApi({
   reducerPath: "incomeApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/v1/",
+    baseUrl: "https://expense-tracker-backend-umber.vercel.app/api/v1/",
   }),
   tagTypes: ["income", "expense", "transaction"],
   endpoints: (builder) => ({

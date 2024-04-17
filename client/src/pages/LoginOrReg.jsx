@@ -8,7 +8,7 @@ const LoginOrReg = () => {
   const handleLogin = async () => {
     try {
       const { data } = await axios.post(
-        "https://expense-tracker-rlxs.onrender.com/api/v1/register-or-login",
+        "https://expense-tracker-backend-umber.vercel.app/register-or-login",
         { mobile: phone },
         {
           withCredentials: true,
