@@ -46,15 +46,10 @@ export const verifyOTP = async (req, res) => {
     }
 
     const token = creteToken({ _id: user._id });
-    return res
-      .cookie("token", token, {
-        maxAge: 172800000,
-        secure: true,
-        httpOnly: false,
-      })
-      .json({
-        message: "Welcome friend",
-      });
+    return res.json({
+      message: "Welcome friend",
+      token,
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",

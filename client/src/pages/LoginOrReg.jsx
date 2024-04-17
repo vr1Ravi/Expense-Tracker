@@ -17,6 +17,7 @@ const LoginOrReg = () => {
           },
         }
       );
+
       setTimeout(() => navigate(`/verify/${data?.user_id}`), 1000);
       toast.success(`${data?.message}`, {
         duration: 3000,
