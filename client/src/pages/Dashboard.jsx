@@ -1,7 +1,7 @@
 import { MdOutlineSort } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
 import { setShowSideBar } from "../slices/item_slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Line } from "react-chartjs-2";
 
 import {
@@ -17,6 +17,8 @@ import {
 
 import { useGetTransactionsQuery } from "../components/apis/api";
 import Item from "../components/Item";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 ChartJS.register(
   CategoryScale,
@@ -30,7 +32,21 @@ ChartJS.register(
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { data, isFetching, error } = useGetTransactionsQuery(1);
+  const { token } = useSelector((state) => state.item);
+  const { data, isFetching, error } = useGetTransactionsQuery(1, token);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.data.message, {
+        duration: 3000,
+        position: "top-center",
+        icon: "❎",
+        style: {
+          color: "crimson",
+        },
+      });
+    }
+  }, [error]);
 
   const chart_options = {
     responsive: true,

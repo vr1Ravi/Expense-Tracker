@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { lazy, Suspense, useState } from "react";
-import { Provider } from "react-redux";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { Provider, useDispatch } from "react-redux";
 import store from "./store";
 import LoginOrReg from "./pages/LoginOrReg";
 import VerifyOtp from "./pages/VerifyOtp";
 import Loader from "./components/Loader";
+import { setToken } from "./slices/item_slice";
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Income = lazy(() => import("./pages/Income"));
 const Transaction = lazy(() => import("./pages/Transaction"));
@@ -12,6 +13,10 @@ const Expense = lazy(() => import("./pages/Expense"));
 
 function App() {
   const [token, _] = useState(localStorage.getItem("token") || null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setToken(token));
+  }, []);
   return (
     <BrowserRouter>
       <Provider store={store}>

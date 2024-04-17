@@ -2,23 +2,34 @@ import { MdOutlineSort } from "react-icons/md";
 import { setShowSideBar } from "../slices/item_slice";
 import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr";
 
 import Form from "../components/Form";
 import { useGetExpenseQuery } from "../components/apis/api";
 import Item from "../components/Item";
 import { Oval } from "react-loader-spinner";
+import toast from "react-hot-toast";
 const Expense = () => {
   const [page, setPage] = useState(1);
-
+  const { token } = useSelector((state) => state.item);
   const [pageCount, setPageCount] = useState(1);
   const dispatch = useDispatch();
-  const { isFetching, data } = useGetExpenseQuery(page);
+  const { isFetching, error, data } = useGetExpenseQuery(page, token);
 
   useEffect(() => {
     if (data) setPageCount(data.pageCount);
-  }, [data]);
+    if (error) {
+      toast.error(error.data.message, {
+        duration: 3000,
+        position: "top-center",
+        icon: "❎",
+        style: {
+          color: "crimson",
+        },
+      });
+    }
+  }, [data, error]);
 
   const nextPage = () => {
     if (page !== pageCount) {

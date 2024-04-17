@@ -8,16 +8,27 @@ import { MdOutlineSort } from "react-icons/md";
 import Form from "../components/Form";
 import { useDispatch } from "react-redux";
 import { setShowSideBar } from "../slices/item_slice";
+import toast from "react-hot-toast";
 
 const Income = () => {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
   const dispatch = useDispatch();
-  const { isFetching, data } = useGetIncomeQuery(page);
+  const { isFetching, error, data } = useGetIncomeQuery(page);
 
   useEffect(() => {
     if (data) setPageCount(data.pageCount);
-  }, [data]);
+    if (error) {
+      toast.error(error.data.message, {
+        duration: 3000,
+        position: "top-center",
+        icon: "❎",
+        style: {
+          color: "crimson",
+        },
+      });
+    }
+  }, [data, error]);
 
   const nextPage = () => {
     if (page !== pageCount) {
