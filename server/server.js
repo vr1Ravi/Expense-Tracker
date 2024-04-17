@@ -7,9 +7,7 @@ connectMongoDb()
   .then(() => console.log("DB connected"))
   .catch((err) => console.log("Db connection Error"));
 
-app.get("/", (res, req) => {
-  res.send("hello");
-});
+app.get("/", (req, res) => res.send("Hello"));
 app.listen(PORT, () => {
   console.log(`server in up : ${PORT}`);
 });
