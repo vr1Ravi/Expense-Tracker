@@ -11,6 +11,7 @@ const LoginOrReg = () => {
         "https://expense-tracker-rlxs.onrender.com/api/v1/register-or-login",
         { mobile: phone },
         {
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },

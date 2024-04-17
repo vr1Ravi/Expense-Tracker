@@ -13,14 +13,13 @@ const VerifyOtp = () => {
   const handleVerifyOtp = async () => {
     try {
       const { data } = await axios.post(
-        "https://expense-tracker-rlxs.onrender.com/api/v1/verify-otp",
+        "/api/v1/verify-otp",
         {
           otp,
           user_id: id,
         },
         {
           withCredentials: true,
-          httpOnly: false,
           headers: {
             "Content-Type": "application/json",
           },
@@ -43,6 +42,7 @@ const VerifyOtp = () => {
       });
     }
   };
+
   return (
     <div className="h-1/3 justify-between mx-4 w-full md:w-[500px] border border-slate-200 rounded-md p-4 flex flex-col items-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <h1 className=" text-xl font-semibold text-blue-950 text-center ">

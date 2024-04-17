@@ -49,6 +49,8 @@ export const verifyOTP = async (req, res) => {
     return res
       .cookie("token", token, {
         maxAge: 172800000,
+        secure: true,
+        httpOnly: false,
       })
       .json({
         message: "Welcome friend",
