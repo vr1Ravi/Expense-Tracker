@@ -5,6 +5,7 @@ import store from "./store";
 import LoginOrReg from "./pages/LoginOrReg";
 import VerifyOtp from "./pages/VerifyOtp";
 import Loader from "./components/Loader";
+import GlobalCatch from "./pages/404";
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Income = lazy(() => import("./pages/Income"));
 const Transaction = lazy(() => import("./pages/Transaction"));
@@ -38,6 +39,7 @@ function App() {
               path="/expense"
               element={token ? <Expense /> : <Navigate to="/" replace />}
             />
+            <Route path="*" element={<GlobalCatch />} />
           </Routes>
         </Suspense>
       </Provider>
